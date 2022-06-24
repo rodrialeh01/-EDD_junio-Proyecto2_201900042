@@ -146,6 +146,18 @@ class ListaSimple{
             temporal.siguiente = _cliente
         }
     }
+    validarcliente(username,password){
+        let temporal = this.primero
+        while(temporal!= null){
+            if(temporal.cliente.username == username){
+                if(temporal.cliente.contrasenia == password){
+                    return true
+                }
+            }
+            temporal = temporal.siguiente
+        }
+        return false
+    }
 }
 
 class Cliente{
@@ -169,6 +181,7 @@ function CargaClientes(){
     reader.addEventListener("load", (event) => {
         let texto = event.target.result;
         let jtexto = JSON.parse(texto)
+        let listac = new ListaSimple()
         for(let i = 0; i<jtexto.length; i++){
             let dpi = jtexto[i].dpi;
             let nombre = jtexto[i].nombre_completo;
@@ -178,7 +191,19 @@ function CargaClientes(){
             let telefono = jtexto[i].telefono;
             let nuevo = new Cliente(dpi,nombre,username,correo,contrasenia,telefono)
             console.log(nuevo)
+            listac.insertar(nuevo)
         }
+        let list = "["
+        let temporal = listac.primero
+        while(temporal != null){
+            if(temporal.siguiente == null){
+                list += JSON.stringify(temporal.cliente) + "]"
+                break
+            }
+            list += JSON.stringify(temporal.cliente) + ","
+            temporal = temporal.siguiente
+        }
+        localStorage.setItem("clientes", list)
     });
     reader.readAsText(archivo, "UTF-8");
     alert("Se cargaron los clientes exitosamente")
