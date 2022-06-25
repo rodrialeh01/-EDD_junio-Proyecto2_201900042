@@ -134,7 +134,7 @@ class ListaSimple{
     }
     insertar(_cliente){
         if(this.primero ==null){
-            this.primero = _cliente
+            this.primero = new NodoCliente(_cliente)
         }else{
             let temporal = this.primero
             while(temporal != null){
@@ -143,7 +143,7 @@ class ListaSimple{
                 }
                 temporal = temporal.siguiente
             }
-            temporal.siguiente = _cliente
+            temporal.siguiente = new NodoCliente(_cliente)
         }
     }
     validarcliente(username,password){
@@ -157,6 +157,27 @@ class ListaSimple{
             temporal = temporal.siguiente
         }
         return false
+    }
+    graficar(){
+        if(this.primero != null){
+            let temporal = this.primero
+            let codigodot = "digraph G {\nnode [shape=box];\nlabel=\"Lista de Clientes\"\nfontsize=28;\nrankdir= \"LR\";\n"
+            let numnodo = 0
+            let nodos = ""
+            let conexiones = ""
+            while(temporal!= null){
+                nodos+= "Nodo" + numnodo + "[label=\"Nombre: " + temporal.cliente.nombre + "\\nUsername: "+temporal.cliente.username+"\\nDPI: "+temporal.cliente.dpi+"\" group="+numnodo+"];\n"
+                if(temporal.siguiente != null){
+                    let aux = numnodo+1
+                    conexiones+= "Nodo" + numnodo + "->Nodo" + aux + ";\n"
+                }   
+                temporal = temporal.siguiente
+                numnodo++
+            }
+            codigodot+= nodos + conexiones + "}"
+            localStorage.setItem("clientesdot", codigodot)
+            console.log(codigodot)
+        }
     }
 }
 
@@ -203,6 +224,7 @@ function CargaClientes(){
             list += JSON.stringify(temporal.cliente) + ","
             temporal = temporal.siguiente
         }
+        console.log(list)
         localStorage.setItem("clientes", list)
     });
     reader.readAsText(archivo, "UTF-8");

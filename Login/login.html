@@ -85,14 +85,16 @@
       let check = document.getElementById('user-checkbox').checked
       let clientes = JSON.parse(localStorage.getItem("clientes"))
       let listaclientes = new ListaSimple()
-      for(let i = 0;i<clientes.length;i++){
-          nuevo = new Cliente(clientes[i].dpi,clientes[i].nombre,clientes[i].username,clientes[i].correo,clientes[i].contrasenia,clientes[i].telefono)
-          listaclientes.insertar(nuevo)
+      if(clientes != null){
+        for(let i = 0;i<clientes.length;i++){
+            nuevo = new Cliente(clientes[i].dpi,clientes[i].nombre,clientes[i].username,clientes[i].correo,clientes[i].contrasenia,clientes[i].telefono)
+            listaclientes.insertar(nuevo)
+        }
       }
       if(check && user== "EDD" && password=="123"){
         alert('Bienvenido Administrador')
         location.href="../Administrador/CargaMasiva.html"
-      }else if(!check && listaclientes.validarcliente(user,password)== true){
+      }else if(clientes!= null && (!check && listaclientes.validarcliente(user,password)== true)){
         alert('Bienvenido ' + user)
       }else{
         alert('Credenciales incorrectas')

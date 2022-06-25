@@ -94,7 +94,40 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- CONTENIDO DE TODO ESO xd -->
+                    <div>
+                        <div class="card position-relative">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Escoge una estructura para mostrar</h6>
+                            </div>
+                            <div class="card-body">
+                                <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+                                    <a class="navbar-brand" href="#">ESTRUCTURAS DE DATOS</a>
+                                    <select class="browser-default custom-select" id="estructuras" required
+                                        aria-label="Seleccione una empresa">
+                                        <option>Lista Simple de Clientes</option>
+                                        <option>Arbol AVL de Peliculas</option>
+                                        <option>Arbol Binario de Actores</option>
+                                        <option>Tabla Hash de de Categorias</option>
+                                    </select>
+                                </nav>
+                                <button type="submit" class="btn btn-primary text btn-lg" onclick="SeleccionarEDD()"><span class="icon text-white-50">
+                                </span>Mostrar </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card position-relative">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Estructura graficada</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="grafico">
+                                </div>
+                                <button type="submit" class="btn btn-primary text btn-lg" onclick="descargardot()"><span class="icon text-white-50">
+                                </span>Descargar </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -105,8 +138,45 @@
         <!-- End of Content Wrapper -->
 
     </div>
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+    <script src="../Lógica del Sistema/main.js"></script>
+    <script>
+        function SeleccionarEDD(){
+            let opcion = document.getElementById("estructuras")
+            let tipoedd = opcion.options[opcion.selectedIndex].text
+            if(tipoedd=="Lista Simple de Clientes"){
+                let clientes = JSON.parse(localStorage.getItem("clientes"))
+                let listaclientes = new ListaSimple()
+                if(clientes != null){
+                    for(let i = 0;i<clientes.length;i++){
+                        nuevo = new Cliente(clientes[i].dpi,clientes[i].nombre,clientes[i].username,clientes[i].correo,clientes[i].contrasenia,clientes[i].telefono)
+                        listaclientes.insertar(nuevo)
+                    }
+                    listaclientes.graficar()
+                    let dotclientes = localStorage.getItem("clientesdot")
+                    d3.select("#grafico").graphviz()
+                        .width(1600)
+                        .height(800)
+                        .scale(0.15)
+                        .renderDot(dotclientes)
+                }
+            }else if(tipoedd=="Arbol AVL de Peliculas"){
+                console.log(2)
+            }else if(tipoedd=="Arbol Binario de Actores"){
+                console.log(3)
+            }else if(tipoedd=="Tabla Hash de de Categorias"){
+                console.log(4)
+            }
+        }
+        
+        function descargardot(){
+            //:(
+        }
+    </script>
     <!-- End of Page Wrapper -->
-
+    <script src="../Lógica del Sistema/main.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
