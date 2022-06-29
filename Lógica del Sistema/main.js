@@ -10,6 +10,7 @@ class NodoAVL{
 class ArbolAVL{
     constructor(){
         this.raiz = null
+        this.codigodot = ""
     }
     insertar(_pelicula){
         this.raiz = this.insertarrecursivo(_pelicula,this.raiz)
@@ -84,6 +85,29 @@ class ArbolAVL{
         nodo.izquierda = this.rotacionderecha(nodo.izquierda)
         return this.rotacionizquierda(nodo)
     }
+    preordenG(){
+        this.pre_ordenG(this.raiz)
+    }
+    pre_ordenG(nodo){
+        if(nodo != null){
+            this.codigodot+= "\nnodo" + nodo.pelicula.id + "[shape=circle,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Pelicula:" + nodo.pelicula.nombre + "\\nID:" + nodo.pelicula.id+ "\"];"
+            if(nodo.izquierda != null){
+                this.codigodot += "\nnodo" + nodo.pelicula.id + " -> nodo" + nodo.izquierda.pelicula.id + "[headport=n];"
+            }
+            if(nodo.derecha != null){
+                this.codigodot += "\nnodo" + nodo.pelicula.id + " -> nodo" + nodo.derecha.pelicula.id + "[headport=n];"
+            }
+            this.pre_ordenG(nodo.izquierda)
+            this.pre_ordenG(nodo.derecha)
+        }
+    }
+    graficar(){
+        this.codigodot = "digraph G{\nsplines=false;"
+        this.preordenG()
+        this.codigodot+="\n}"
+        console.log(this.codigodot)
+        localStorage.setItem("dotpeliculas", this.codigodot)
+    }
 }
 
 class Pelicula{
@@ -115,7 +139,7 @@ function CargaPeliculas(){
             let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
             console.log(nuevo)
         }
-        localStorage.setItem("peliculas",jtexto)
+        localStorage.setItem("peliculas",texto)
     });
     reader.readAsText(archivo, "UTF-8");
     alert("Se cargaron las películas exitosamente")
@@ -242,6 +266,7 @@ class NodoABB{
 class ArbolABB{
     constructor(){
         this.raiz =  null
+        this.codigodot = ""
     }
     insertar(_actor){
         this.raiz = this.Agregar(_actor,this.raiz)
@@ -250,7 +275,7 @@ class ArbolABB{
         if(nodo == null){
             return new NodoABB(_actor)
         }else{
-            if(_actor.dni < nodo.autor.dni){
+            if(_actor.dni < nodo.actor.dni){
                 nodo.izquierda = this.Agregar(_actor, nodo.izquierda)
             }else if(_actor.dni > nodo.actor.dni){
                 nodo.derecha = this.Agregar(_actor, nodo.derecha)
@@ -258,6 +283,29 @@ class ArbolABB{
             }
         }
         return nodo
+    }
+    preordenG(){
+        this.pre_ordenG(this.raiz)
+    }
+    pre_ordenG(nodo){
+        if(nodo != null){
+            this.codigodot+= "\nnodo" + nodo.actor.dni + "[shape=circle,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Nombre:" + nodo.actor.nombre + "\\nDNI:" + nodo.actor.dni+ "\"];"
+            if(nodo.izquierda != null){
+                this.codigodot += "\nnodo" + nodo.actor.dni + " -> nodo" + nodo.izquierda.actor.dni + "[headport=n];"
+            }
+            if(nodo.derecha != null){
+                this.codigodot += "\nnodo" + nodo.actor.dni + " -> nodo" + nodo.derecha.actor.dni + "[headport=n];"
+            }
+            this.pre_ordenG(nodo.izquierda)
+            this.pre_ordenG(nodo.derecha)
+        }
+    }
+    graficar(){
+        this.codigodot = "digraph G{\nsplines=false;"
+        this.preordenG()
+        this.codigodot+="\n}"
+        console.log(this.codigodot)
+        localStorage.setItem("dotactores", this.codigodot)
     }
 }
 
@@ -271,6 +319,7 @@ class Actor{
 }
 
 function CargaActores(){
+    let arbol = new ArbolABB()
     let input_archivo = document.getElementById("file3");
     let archivo = input_archivo.files[0];
     if (!archivo) {
@@ -286,17 +335,175 @@ function CargaActores(){
             let correo = jtexto[i].correo;
             let descripcion = jtexto[i].descripcion;
             let nuevo = new Actor(dni,nombre,correo,descripcion)
-            console.log(nuevo)
+            arbol.insertar(nuevo)
         }
+        localStorage.setItem("actores",texto)
     });
     reader.readAsText(archivo, "UTF-8");
     alert("Se cargaron los actores exitosamente")
 }
 
-class NodoHash{
-    constructor(_id,_categorias){
+class NodoIdHash{
+    constructor(_id){
         this.id = _id
-        this.categorias = _categorias
+        this.categoria = null
+        this.siguiente = null
+        this.derecho = null
+    }
+}
+class NodoCategoria{
+    constructor(categoria){
+        this.categoria = categoria
+        this.derecho = null
+    }
+}
+
+class TablaHash{
+    constructor(){
+        this.tamanio = 0
+        this.cabeza = null
+        this.llenos = 0
+        this.llenadoinicial()
+    }
+    llenadoinicial(){
+        let contador = 0
+        while(contador != 20){
+            if(this.cabeza == null){
+                this.cabeza = new NodoIdHash(contador)
+                contador++
+            }else{
+                let temporal = this.cabeza
+                while(temporal != null){
+                    if(temporal.siguiente == null){
+                        break
+                    }
+                    temporal = temporal.siguiente
+                }
+                temporal.siguiente = new NodoIdHash(contador)
+                contador++
+            }
+            this.tamanio++
+        }
+    }
+    insertar(categoria){
+        let nuevo = new NodoCategoria(categoria)
+        let posicion = categoria.id%this.tamanio
+        let temporal = this.cabeza
+        let maximo = this.tamanio*0.75
+        console.log("LLENOS: " + this.llenos)
+        console.log("CAPACIDAD MAX: " + maximo)
+        if(this.llenos< maximo){
+            while(temporal!= null){
+                if(temporal.id == posicion){
+                    if(temporal.categoria == null){
+                        temporal.categoria = categoria
+                        break
+                    }else{
+                        if(temporal.derecho == null){
+                            temporal.derecho = nuevo
+                        }else{
+                            let tempo2 = temporal.derecho
+                            while(tempo2 != null){
+                                if(tempo2.categoria.id == nuevo.categoria.id){
+                                    break
+                                }
+                                if(tempo2.derecho == null){
+                                    break
+                                }
+                                tempo2 = tempo2.derecho
+                            }
+                            if(tempo2.categoria.id != nuevo.categoria.id){
+                                tempo2.derecho = nuevo
+                            }
+                        }
+                        break
+                    }
+                }
+                temporal = temporal.siguiente
+            }
+            this.llenos++
+        }else{
+            this.rehashing()
+            this.insertar(categoria)
+        }
+    }
+    rehashing(){
+        let contador = this.tamanio
+        let tope = this.tamanio+5
+        while(contador != tope){
+            let temporal = this.cabeza
+            while(temporal != null){
+                if(temporal.siguiente == null){
+                    break
+                }
+                temporal = temporal.siguiente
+            }
+            temporal.siguiente = new NodoIdHash(contador)
+            contador++
+        }
+        this.tamanio += 5
+    }
+    graficar(){
+        let codigodot = "digraph G {\nrankdir=LR;\n node [shape=record width = 2.2 fontsize=30];"
+        codigodot+= "\nides[style=\"filled\"  fillcolor=\"#3397EB\" label = \""
+        let nodos = ""
+        let temporal = this.cabeza
+        let conexiones = ""
+        while(temporal!= null){
+            if(temporal.siguiente != null){
+                if(temporal.categoria == null){
+                    codigodot+= "<id" + temporal.id +"> |"
+                    temporal = temporal.siguiente
+                }else{
+                    codigodot+= "<id" + temporal.id +">" + temporal.categoria.id+ "\\n" + temporal.categoria.company + " |"
+                    temporal = temporal.siguiente
+                }
+            }else{
+                if(temporal.categoria == null){
+                    codigodot+= "<id" + temporal.id +">"
+                    temporal = temporal.siguiente
+                }else{
+                    codigodot+= "<id" + temporal.id +">" + temporal.categoria.id+ "\\n" + temporal.categoria.company
+                    temporal = temporal.siguiente
+                }
+            }
+        }
+        codigodot+= "\" height=" + this.tamanio + "];\nnode [shape=box fontsize=30];\n"
+        let c = 0
+        while(c != this.tamanio){
+            codigodot+= "n" + c + "[shape=plain style=filled fillcolor=transparent fontsize=30 label=\"" + c + "\"];\n"
+            codigodot+= "n" + c + "->ides:id" + c + "[color=transparent];\n"
+            c++
+        }
+        temporal = this.cabeza
+        while(temporal != null){
+            if(temporal.derecho != null){
+                let tempo2 = temporal.derecho
+                while(tempo2 != null){
+                    nodos+= "i" + temporal.id + "_" + tempo2.categoria.id + "[style=\"filled\" fontcolor=\"white\"  fillcolor=\"#B373AB\" label=\"ID:" + tempo2.categoria.id +"\\nCompany:"+ tempo2.categoria.company+ "\"];\n"
+                    tempo2 = tempo2.derecho
+                }
+            }
+            temporal = temporal.siguiente
+        }
+        temporal = this.cabeza
+        while(temporal != null){
+            if(temporal.derecho!= null){
+                let tempo2 = temporal.derecho
+                conexiones+= "ides:id" + temporal.id + "->" +"i"+ temporal.id + "_" + tempo2.categoria.id + ";\n"
+                while(tempo2 != null){
+                    if(tempo2.derecho != null){
+                        conexiones+="i" +temporal.id + "_" + tempo2.categoria.id + "->" +"i" +temporal.id + "_" + tempo2.derecho.categoria.id + ";\n"
+                    }
+                    tempo2 = tempo2.derecho
+                }
+                
+            }
+            temporal = temporal.siguiente
+        }
+        codigodot += nodos + conexiones + "\n}"
+        console.log(codigodot)
+        localStorage.setItem("dothash",codigodot)
     }
 }
 
@@ -323,6 +530,7 @@ function CargaCategorias(){
             let nuevo = new Categoria(id,company)
             console.log(nuevo)
         }
+        localStorage.setItem("categorias",texto)
     });
     reader.readAsText(archivo, "UTF-8");
     alert("Se cargaron las categorias exitosamente")

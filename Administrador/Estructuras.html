@@ -163,11 +163,59 @@
                         .renderDot(dotclientes)
                 }
             }else if(tipoedd=="Arbol AVL de Peliculas"){
-                console.log(2)
+                let avl = new ArbolAVL()
+                let jtexto = JSON.parse(localStorage.getItem("peliculas"))
+                for(let i = 0; i<jtexto.length; i++){
+                    let id = jtexto[i].id_pelicula;
+                    let nombre = jtexto[i].nombre_pelicula;
+                    let descripcion = jtexto[i].descripcion;
+                    let puntuacion = jtexto[i].puntuacion_star;
+                    let precio = jtexto[i].precio_Q;
+                    let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
+                    avl.insertar(nuevo)
+                }
+                avl.graficar()
+                let grafo = localStorage.getItem("dotpeliculas")
+                d3.select("#grafico").graphviz()
+                        .width(1600)
+                        .height(800)
+                        .renderDot(grafo)
             }else if(tipoedd=="Arbol Binario de Actores"){
-                console.log(3)
+                let abb = new ArbolABB()
+                let jtexto = JSON.parse(localStorage.getItem("actores"))
+                for(let i = 0; i<jtexto.length; i++){
+                    let dni = jtexto[i].dni;
+                    let nombre = jtexto[i].nombre_actor;
+                    let correo = jtexto[i].correo;
+                    let descripcion = jtexto[i].descripcion;
+                    let nuevo = new Actor(dni,nombre,correo,descripcion)
+                    abb.insertar(nuevo)
+                }
+                abb.graficar()
+                let grafo = localStorage.getItem("dotactores")
+                d3.select("#grafico").graphviz()
+                        .width(1600)
+                        .height(800)
+                        .renderDot(grafo)
             }else if(tipoedd=="Tabla Hash de de Categorias"){
-                console.log(4)
+                let hash = new TablaHash()
+                let categorias = JSON.parse(localStorage.getItem("categorias"))
+                console.log(categorias)
+                if(categorias!= null){
+                    for(let i = 0; i<categorias.length; i++){
+                        let id = categorias[i].id_categoria;
+                        let company = categorias[i].company;
+                        let nuevo = new Categoria(id,company)
+                        hash.insertar(nuevo)
+                    }
+                    hash.graficar()
+                    let dotcat = localStorage.getItem("dothash")
+                    d3.select("#grafico").graphviz()
+                        .width(1600)
+                        .height(800)
+                        .scale(0.15)
+                        .renderDot(dotcat)
+                }
             }
         }
         
