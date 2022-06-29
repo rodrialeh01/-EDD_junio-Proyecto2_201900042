@@ -182,6 +182,18 @@ class ListaSimple{
         }
         return false
     }
+    retornaruserlogin(username,password){
+        let temporal = this.primero
+        while(temporal!= null){
+            if(temporal.cliente.username == username){
+                if(temporal.cliente.contrasenia == password){
+                    return temporal.cliente
+                }
+            }
+            temporal = temporal.siguiente
+        }
+        return null
+    }
     graficar(){
         if(this.primero != null){
             let temporal = this.primero

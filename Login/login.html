@@ -96,6 +96,9 @@
         location.href="../Administrador/CargaMasiva.html"
       }else if(clientes!= null && (!check && listaclientes.validarcliente(user,password)== true)){
         alert('Bienvenido ' + user)
+        location.href="../Cliente/rentarpeliculas.html"
+        let usuariolog = listaclientes.retornaruserlogin(user,password)
+        sessionStorage.setItem("usuariologueado",JSON.stringify(usuariolog))
       }else{
         alert('Credenciales incorrectas')
       }
