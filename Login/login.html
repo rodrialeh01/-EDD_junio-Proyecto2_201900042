@@ -80,28 +80,28 @@
   <script src="../Lógica del Sistema/main.js"></script>
   <script>
     function iniciarsesion(){
-      let user = document.getElementById('user').value
-      let password = document.getElementById('password').value
-      let check = document.getElementById('user-checkbox').checked
-      let clientes = JSON.parse(localStorage.getItem("clientes"))
-      let listaclientes = new ListaSimple()
-      if(clientes != null){
-        for(let i = 0;i<clientes.length;i++){
-            nuevo = new Cliente(clientes[i].dpi,clientes[i].nombre,clientes[i].username,clientes[i].correo,clientes[i].contrasenia,clientes[i].telefono)
-            listaclientes.insertar(nuevo)
+        let user = document.getElementById('user').value
+        let password = document.getElementById('password').value
+        let check = document.getElementById('user-checkbox').checked
+        let clientes = JSON.parse(localStorage.getItem("clientes"))
+        let listaclientes = new ListaSimple()
+        if(clientes != null){
+            for(let i = 0;i<clientes.length;i++){
+                nuevo = new Cliente(clientes[i].dpi,clientes[i].nombre,clientes[i].username,clientes[i].correo,clientes[i].contrasenia,clientes[i].telefono)
+                listaclientes.insertar(nuevo)
+            }
         }
-      }
-      if(check && user== "EDD" && password=="123"){
-        alert('Bienvenido Administrador')
-        location.href="../Administrador/CargaMasiva.html"
-      }else if(clientes!= null && (!check && listaclientes.validarcliente(user,password)== true)){
-        alert('Bienvenido ' + user)
-        location.href="../Cliente/rentarpeliculas.html"
-        let usuariolog = listaclientes.retornaruserlogin(user,password)
-        sessionStorage.setItem("usuariologueado",JSON.stringify(usuariolog))
-      }else{
-        alert('Credenciales incorrectas')
-      }
+        if(check && user== "EDD" && password=="123"){
+            alert('Bienvenido Administrador')
+            location.href="../Administrador/CargaMasiva.html"
+        }else if(clientes!= null && (!check && listaclientes.validarcliente(user,password)== true)){
+            alert('Bienvenido ' + user)
+            location.href="../Cliente/rentarpeliculas.html"
+            let usuariolog = listaclientes.retornaruserlogin(user,password)
+            sessionStorage.setItem("usuariologueado",JSON.stringify(usuariolog))
+        }else{
+            alert('Credenciales incorrectas')
+        }
     }
   </script>
   <!-- Bootstrap core JavaScript-->

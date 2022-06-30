@@ -8,12 +8,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Vista Libros - Libreria CATSBOOKS</title>
+      <title>Rentar Peliculas - MOVIECATS</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- site icon -->
-      <link rel="icon" href="../assets/images/logo/gato.png" type="image/png" />
+      <link rel="icon" href="../assets/logoico.png" type="image/png" />
       <!-- bootstrap css -->
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <!-- site css -->
@@ -55,9 +55,9 @@
                   <h4 id="mostraruser"></h4>
                   <ul class="list-unstyled components">
                      <li class="active"><a href="./rentarpeliculas.html"><i class="fa fa-file-video-o yellow_color"></i> <span>Rentar Pelicula</span></a></li>
-                     <li class="active"><a href="./verpelicula.html"><i class="fa fa-file-video-o white_color"></i> <span>Ver Pelicula</span></a></li>
-                     <li class="active"><a href="./veractores.html"><i class="fa fa-users orange_color"></i> <span>Ver Actores</span></a></li>
-                     <li class="active"><a href="./categorias.html"><i class="fa fa-file-video-o green_color"></i> <span>Categorías</span></a></li>
+                     <li><a href="./verpelicula.html"><i class="fa fa-file-video-o white_color"></i> <span>Ver Pelicula</span></a></li>
+                     <li><a href="./veractores.html"><i class="fa fa-users orange_color"></i> <span>Ver Actores</span></a></li>
+                     <li><a href="./categorias.html"><i class="fa fa-file-video-o green_color"></i> <span>Categorías</span></a></li>
                      <li><a href="../Login/login.html"><i class="fa fa-sign-out red_color"></i> <span>Salir</span></a></li>
                   </ul>
                </div>
@@ -83,23 +83,47 @@
                      <div class="row column_title">
                         <div class="col-md-12">
                            <div class="page_title">
-                              <h2>Nuestro catalogo de Libros</h2>
+                              <h2>Lista de Peliculas para Rentar</h2>
                            </div>
                         </div>
                      </div>
                      <div class="dropdown_section">
                         <div class="dropdown">
                            <select name="Tipo" id="ordenamiento" class="btn bg-gradient-primary dropdown-toggle">
-                              <option class="dropdown-item" value="Ascendente">Ordenar Ascendentemente los Libros</option>
-                              <option class="dropdown-item" value="Descendente">Ordenar Descendentemente los Libros</option>
+                              <option class="dropdown-item" value="Ascendente">Ordenar Ascendentemente</option>
+                              <option class="dropdown-item" value="Descendente">Ordenar Descendentemente</option>
                            </select>
-                           <div class="field margin_0">
-                              <button class="main_bt" onclick="opcion()">Seleccionar</button>
+                           <div>
+                              <button class="main_bt" onclick="opcion()">Ordenar</button>
                            </div>
                         </div>
                      </div>
-                     <div id="mostrarbooks">
+                     <div id="mostrarpeliculas">
+                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 profile_details margin_bottom_30">
+                        <div class="contact_blog">
+                           <div class="contact_inner">
+                              <div class="left">
+                                 <h2>Nombre de la Pelicula</h2>
+                                 <br>
+                                 <p><strong>Descripción: </strong>Dezzzzzzcripcion</p>
+                                 <h3><strong>Precio: </strong>Q12.00</h3>
+                              </div>
+                              <div class="right">
+                                 <div class="profile_contacts">
+                                    <img class="img-responsive" src="images/layout_img/msg2.png" alt="#" />
+                                 </div>
+                              </div>
+                              <div class="bottom_list">
+                                 <div class="right_button">
+                                    <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart"></i> Alquilar Pelicula</button>
+                                    <button type="button" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-play"> </i> Mas Información</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </div>
+                  </div>
                   </div>
                </div>
                <!-- end dashboard inner -->

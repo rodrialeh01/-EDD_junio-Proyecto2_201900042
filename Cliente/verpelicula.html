@@ -8,12 +8,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Vista Libros - Libreria CATSBOOKS</title>
+      <title>Peliculas - MOVIECATS</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- site icon -->
-      <link rel="icon" href="../assets/images/logo/gato.png" type="image/png" />
+      <link rel="icon" href="../assets/logoico.png" type="image/png" />
       <!-- bootstrap css -->
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <!-- site css -->
@@ -54,10 +54,10 @@
                <div class="sidebar_blog_2">
                   <h4 id="mostraruser"></h4>
                   <ul class="list-unstyled components">
-                     <li class="active"><a href="./rentarpeliculas.html"><i class="fa fa-file-video-o yellow_color"></i> <span>Rentar Pelicula</span></a></li>
+                     <li><a href="./rentarpeliculas.html"><i class="fa fa-file-video-o yellow_color"></i> <span>Rentar Pelicula</span></a></li>
                      <li class="active"><a href="./verpelicula.html"><i class="fa fa-file-video-o white_color"></i> <span>Ver Pelicula</span></a></li>
-                     <li class="active"><a href="./veractores.html"><i class="fa fa-users orange_color"></i> <span>Ver Actores</span></a></li>
-                     <li class="active"><a href="./categorias.html"><i class="fa fa-file-video-o green_color"></i> <span>Categorías</span></a></li>
+                     <li><a href="./veractores.html"><i class="fa fa-users orange_color"></i> <span>Ver Actores</span></a></li>
+                     <li><a href="./categorias.html"><i class="fa fa-file-video-o green_color"></i> <span>Categorías</span></a></li>
                      <li><a href="../Login/login.html"><i class="fa fa-sign-out red_color"></i> <span>Salir</span></a></li>
                   </ul>
                </div>
@@ -83,23 +83,113 @@
                      <div class="row column_title">
                         <div class="col-md-12">
                            <div class="page_title">
-                              <h2>Nuestro catalogo de Libros</h2>
+                              <h2>Ver Información de la Pelicula</h2>
                            </div>
                         </div>
                      </div>
-                     <div class="dropdown_section">
-                        <div class="dropdown">
-                           <select name="Tipo" id="ordenamiento" class="btn bg-gradient-primary dropdown-toggle">
-                              <option class="dropdown-item" value="Ascendente">Ordenar Ascendentemente los Libros</option>
-                              <option class="dropdown-item" value="Descendente">Ordenar Descendentemente los Libros</option>
-                           </select>
-                           <div class="field margin_0">
-                              <button class="main_bt" onclick="opcion()">Seleccionar</button>
+                     <div class="row column1">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                           <div class="white_shd full margin_bottom_30">
+                              <div class="full price_table padding_infor_info">
+                                 <div class="row">
+                                    <div class="col-lg-12">
+                                       <div class="full dis_flex center_text">
+                                          <div class="profile_contant">
+                                             <div class="contact_inner">
+                                                <h2>Nombre de la Pelicula</h2>
+                                             </div>
+                                             <div class="user_progress_bar">
+                                                <div class="progress_bar">
+                                                   <!-- Skill Bars -->
+                                                   <span class="skill"><strong>Descripción</strong></span><br>
+                                                   <span class="skill">Dezzzzzzcripcion</span>
+                                                   <br>
+                                                   <div class="left_rating">
+                                                      <p>Puntuación de la Pelicula:</p>
+                                                      <p class="ratings">
+                                                         <a href="#"><span class="fa fa-star"></span></a>
+                                                         <a href="#"><span class="fa fa-star"></span></a>
+                                                         <a href="#"><span class="fa fa-star"></span></a>
+                                                         <a href="#"><span class="fa fa-star"></span></a>
+                                                         <a href="#"><span class="fa fa-star-o"></span></a>
+                                                      </p>
+                                                   </div>
+                                                </div>
+                                                <div class="bottom_list">
+                                                   
+                                                   <div class="right_button">
+                                                      <div class="login_form">
+                                                         <form>
+                                                            <div class="field">
+                                                               <label>Agrega tu Puntuación</label>
+                                                                  <select name="Tipo" id="ordenamiento" class="btn bg-gradient-primary dropdown-toggle">
+                                                                     <option class="dropdown-item" value="0">0</option>
+                                                                     <option class="dropdown-item" value="1">1</option>
+                                                                     <option class="dropdown-item" value="2">2</option>
+                                                                     <option class="dropdown-item" value="3">3</option>
+                                                                     <option class="dropdown-item" value="4">4</option>
+                                                                     <option class="dropdown-item" value="5">5</option>
+                                                                  </select>
+                                                            </div>
+                                                         </form>
+                                                      </div>
+                                                      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-star-o"></i> Modificar Puntuación</button>
+                                                      <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart"></i> Alquilar Pelicula</button>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- profile contant section -->
+                                       <div class="full inner_elements margin_top_30">
+                                          <div class="tab_style2">
+                                             <div class="tabbar">
+                                                <nav>
+                                                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#recent_activity" role="tab" aria-selected="true">Comentarios de la Pelicula</a>
+                                                      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#project_worked" role="tab" aria-selected="false">Agrega un Comentario</a>
+                                                   </div>
+                                                </nav>
+                                                <div class="tab-content" id="nav-tabContent">
+                                                   <div class="tab-pane fade show active" id="recent_activity" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                      <div class="msg_list_main">
+                                                         <ul class="msg_list">
+                                                            <li>
+                                                               <span>
+                                                               <span class="name_user">Fulano</span>
+                                                               <span class="msg_user">Comentario</span>
+                                                               </span>
+                                                            </li>
+                                                         </ul>
+                                                      </div>
+                                                   </div>
+                                                   <div class="tab-pane fade" id="project_worked" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                      <div class="login_form">
+                                                         <form>
+                                                            <fieldset>
+                                                               <div class="field">
+                                                                  <label class="label_field">Comentario:</label>
+                                                                  <input type="text" name="email" placeholder="Ingresa tus comentarios de esta pelicula" />
+                                                               </div>
+                                                               <div class="field margin_0">
+                                                                  <button class="main_bt">Agregar mi Comentario</button>
+                                                               </div>
+                                                            </fieldset>
+                                                         </form>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <!-- end user profile section -->
+                                    </div>
+                                 </div>
+                              </div>
                            </div>
+                           <div class="col-md-2"></div>
                         </div>
-                     </div>
-                     <div id="mostrarbooks">
-                     </div>
                   </div>
                </div>
                <!-- end dashboard inner -->

@@ -161,7 +161,7 @@ h1 {
 }
 
 .img-responsive {
-    max-width: 100%;
+    max-width: 30%;
 }
 
 h3 {
@@ -218,8 +218,8 @@ a,
 
 .btn-success {
     color: #fff;
-    background-color: #1ed085;
-    border-color: #1ed085;
+    background-color: #3d2256;
+    border-color: #3d2256;
 }
 
 ul {
@@ -919,7 +919,7 @@ a[data-toggle="collapse"] {
     transition: ease all 0.3s;
     position: relative;
     padding: 60px 25px 25px 305px;
-    background: #f8f8f8;
+    background: #dfefff;
 }
 
 .page_title {
@@ -1749,7 +1749,7 @@ a[data-toggle="collapse"] {
     min-width: 125px;
     height: auto;
     float: left;
-    background: #841621;
+    background: #1e5f9f;
     text-align: center;
     color: #fff;
     padding: 10px 25px;
@@ -1768,7 +1768,7 @@ button.main_bt {
 
 .main_bt:hover,
 .main_bt:focus {
-    background: #827c7a;
+    background: #8a6fa4;
     color: #fff;
 }
 
@@ -2183,9 +2183,9 @@ i.icon {
 /** tabbar style 2 **/
 
 .tab_style2 .tabbar nav div.nav-tabs .nav-link.active {
-    background: #841621;
+    background: #1e5f9f;
     color: #fff;
-    border-color: #841621;
+    border-color: #1e5f9f;
 }
 
 
@@ -2217,7 +2217,7 @@ i.icon {
 /** button section **/
 
 .btn {
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .button_sction {
@@ -3081,9 +3081,9 @@ ul.labels-category li p {
 
 .contact_blog {
     float:left;
-    width: 140%;
+    width: 300%;
     border: solid rgb(235, 235, 235) 1px;
-    background: rgb(218, 218, 218);
+    background-color: #e4f6ff;
     border-radius: 3px;
     padding: 15px;
 }
@@ -3105,7 +3105,7 @@ ul.labels-category li p {
 .contact_inner .left {
     width: 70%;
     float: left;
-    padding-right: 20px;
+    padding-right: 80px;
 }
 
 .contact_inner .right {
@@ -3308,7 +3308,6 @@ table.projects tr td:first-child {
 }
 
 .login_form {
-    padding: 50px 50px;
     float: left;
     width: 100%;
 }
