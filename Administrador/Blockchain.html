@@ -99,7 +99,7 @@
                             <input type="number" class="form-control form-control-user" id="tiempo" placeholder="Tiempo de Generacion de Bloque">
                         </div>
                     </form>
-                    <button class="btn btn-primary btn-user btn-block">Modificar Tiempo</button>
+                    <button class="btn btn-primary btn-user btn-block" onclick="Mensaje()">Modificar Tiempo</button>
                     <br>
                     <br>
                     <button class="btn btn-danger btn-user btn-block" onclick="generarBloque()">Generar Bloque ahora</button>
@@ -321,6 +321,9 @@
             }
         }
         mostrarblockchain()
+        function Mensaje(){
+            alert('Proximamente :D')
+        }
     </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

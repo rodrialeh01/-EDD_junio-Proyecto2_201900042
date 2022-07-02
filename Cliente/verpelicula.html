@@ -348,7 +348,6 @@
          function rentar(){
             let peli = ""
             peli = sessionStorage.getItem("peliculaver")
-            let idpeli = boton.value
             let jtexto = JSON.parse(localStorage.getItem("peliculas"))
             let trans = localStorage.getItem("transacciones")
             let lista = new ListaCad()
@@ -365,10 +364,13 @@
             let pelicula = arbol.buscar(arbol.raiz, Number(peli))
             if(trans != null){
                let tansj = JSON.parse(trans)
-               for(let i = 0; i<transj.length; i++){
-                  let cad = new Cadena_t(transj[i].cadena);
-                  lista.insertar(cad)
-               } 
+               if(trans!="[]"){
+                  for(let i = 0; i<transj.length; i++){
+                     let cad = new Cadena_t(transj[i].cadena);
+                     lista.insertar(cad)
+                  } 
+               }
+               
                let nombre = JSON.parse(usuariolog).nombre
                let cad1 = new Cadena_t(`${nombre} - ${pelicula.nombre_pelicula}`)
                lista.insertar(cad1)
@@ -376,12 +378,13 @@
                let guardar = "["
                while(temporal!= null){
                   if(temporal.siguiente == null){
-                     guardar+= JSON.stringify(temporal.cadena) + "]"
+                     guardar+= JSON.stringify(temporal.cadena)
                      break
                   }
                   guardar+= JSON.stringify(temporal.cadena) + ","
                   temporal = temporal.siguiente
                }
+               guardar+="]"
                localStorage.setItem("transacciones",guardar)
             }else{
                let nombre = JSON.parse(usuariolog).nombre
