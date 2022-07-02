@@ -151,7 +151,6 @@
             location.href="./verpelicula.html"
          }
          function rentar(boton){
-            console.log(":(")
             let idpeli = boton.value
             let jtexto = JSON.parse(localStorage.getItem("peliculas"))
             let trans = localStorage.getItem("transacciones")
@@ -166,9 +165,10 @@
                let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
                arbol.insertar(nuevo)
             } 
-            let pelicula = arbol.buscar(arbol.raiz, Number(peli))
+            let pelicula = arbol.buscar(arbol.raiz, Number(idpeli))
             if(trans != null){
-               let tansj = JSON.parse(trans)
+               console.log(trans)
+               let transj = JSON.parse(trans)
                for(let i = 0; i<transj.length; i++){
                   let cad = new Cadena_t(transj[i].cadena);
                   lista.insertar(cad)

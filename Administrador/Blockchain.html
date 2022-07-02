@@ -139,33 +139,43 @@
     <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
     <script src="../Lógica del Sistema/main.js"></script>
     <script>
-        var indexbloque = 0
         function generarBloque(){
             let m = new ArbolMerkle()
-            let block = new Blockchain()
+            let blockchain = new Blockchain()
             let trans = localStorage.getItem("transacciones")
-            let bloques = localStorage.getItem("bloques")
+            console.log(trans)
+            let bloque = localStorage.getItem("bloques")
+            console.log(bloque)
             const hoy = new Date();
             let hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
             let date = String(formatoFecha(hoy,'dd-mm-yy'))  + "-" + String(hora)
-            if(bloques != null){
+            if(bloque != null){
+                let bloques = JSON.parse(bloque)
                 for(let i = 0; i<bloques.length; i++){
                     let nuevo = new Bloque(bloques[i].index,bloques[i].timestap,bloques[i].data, bloques[i].nonce, bloques[i].rootmerkle, bloques[i].hash)
                     nuevo.previoushash = bloques[i].previoushash
-                    block.agregar(nuevo)
+                    blockchain.agregar(nuevo)
                 }
-                let temporal = block.bloque_genesis
+                let temporal = blockchain.bloque_genesis
                 while(temporal!= null){
                     if(temporal.siguiente == null){
                         break
                     }
                     temporal = temporal.siguiente
                 }
+                let datam = "[\\n"
                 if(trans!= null){
-                    for(let i = 0; i<transj.length; i++){
-                        let cad = new Cadena_t(transj[i].cadena);
-                        m.insertar(cad)
+                    let transj = JSON.parse(trans)
+                    if(trans != "[]"){
+                        for(let i = 0; i<transj.length; i++){
+                            let cad = new Cadena_t(transj[i].cadena);
+                            m.insertar(cad.cadena)
+                            datam+= "{" + cad.cadena + "}\\n"
+                        }
+                    }else{
+                        m.insertar('')
                     }
+                    datam+="]"
                     m.auth()
                     m.graficar()
                     d3.select("#Merkle").graphviz()
@@ -174,6 +184,7 @@
                         .fit(true)
                         .renderDot(m.codigodot)
                 }else{
+                    datam+="]"
                     m.insertar('')
                     m.auth()
                     m.graficar()
@@ -184,10 +195,12 @@
                         .renderDot(m.codigodot)
                 }
                 let indexn = Number(temporal.bloque.index)+1
-                let nonce = pruebadetrabajo(indexn,date,temporal.bloque.hash,m.tophash)
-                let hash = sha256(String(indexn) + date + temporal.bloque.hash + m.tophash + String(nonce))
-                let nuevo_bloque = new Bloque(String(indexn),date,trans,nonce,m.tophash,hash)
-                block.graficar()
+                let nonce = pruebadetrabajo(indexn,date,temporal.bloque.hash,m.tophash.hash)
+                let hash = Sha256.hash(String(indexn) + date + temporal.bloque.hash + m.tophash.hash + String(nonce))
+                let nuevo_bloque = new Bloque(String(indexn),date,datam,nonce,m.tophash.hash,hash)
+                blockchain.agregar(nuevo_bloque)
+                console.log(nuevo_bloque)
+                blockchain.graficar()
                 let grafico = localStorage.getItem("dot_blockchain")
                 d3.select("#Blockchain").graphviz()
                     .width(1600)
@@ -195,22 +208,31 @@
                     .fit(true)
                     .renderDot(grafico)
                 let guardar = "["
-                temporal = block.bloque_genesis
+                temporal = blockchain.bloque_genesis
                 while(temporal != null){
                     if(temporal.siguiente == null){
-                        guardar += JSON.stringify(temporal.bloque) + "]"
+                        guardar += JSON.stringify(temporal.bloque)
                         break
                     }
                     guardar+= JSON.stringify(temporal.bloque) + ","
                     temporal = temporal.siguiente
                 }
+                guardar+= "]"
                 localStorage.setItem("bloques",guardar)
             }else{
+                let datam = "[\\n"
                 if(trans!= null){
-                    for(let i = 0; i<transj.length; i++){
-                        let cad = new Cadena_t(transj[i].cadena);
-                        m.insertar(cad)
+                    let transj = JSON.parse(trans)
+                    if(trans != "[]"){
+                        for(let i = 0; i<transj.length; i++){
+                            let cad = new Cadena_t(transj[i].cadena);
+                            m.insertar(cad.cadena)
+                            datam+= "{" + cad.cadena + "}\\n"
+                        }
+                    }else{
+                        m.insertar('')
                     }
+                    datam += "]"
                     m.auth()
                     m.graficar()
                     d3.select("#Merkle").graphviz()
@@ -228,10 +250,13 @@
                         .fit(true)
                         .renderDot(m.codigodot)
                 }
-                let nonce = pruebadetrabajo(1,date,"00",m.tophash)
-                let hash = sha256(String(1) + date + "00" + m.tophash + String(nonce))
-                let nuevo_bloque = new Bloque(String(1),date,trans,nonce,m.tophash,hash)
-                block.graficar()
+                let nonce = pruebadetrabajo(0,date,"00",m.tophash.hash)
+                let hash = Sha256.hash(String(0) + date + "00" + m.tophash.hash + String(nonce))
+                console.log(hash)
+                let nuevo_bloque = new Bloque(String(0),date,datam,nonce,m.tophash.hash,hash)
+                blockchain.agregar(nuevo_bloque)
+                console.log(nuevo_bloque)
+                blockchain.graficar()
                 let grafico = localStorage.getItem("dot_blockchain")
                 d3.select("#Blockchain").graphviz()
                     .width(1600)
@@ -239,17 +264,19 @@
                     .fit(true)
                     .renderDot(grafico)
                 let guardar = "["
-                temporal = block.bloque_genesis
+                temporal = blockchain.bloque_genesis
                 while(temporal != null){
                     if(temporal.siguiente == null){
-                        guardar += JSON.stringify(temporal.bloque) + "]"
+                        guardar += JSON.stringify(temporal.bloque)
                         break
                     }
                     guardar+= JSON.stringify(temporal.bloque) + ","
                     temporal = temporal.siguiente
                 }
+                guardar+= "]"
                 localStorage.setItem("bloques",guardar)
             }
+            localStorage.setItem("transacciones", "[]")
         }
         function formatoFecha(fecha, formato) {
             const map = {
@@ -273,6 +300,27 @@
                 contador++
             }
         }
+        function mostrarblockchain(){
+            let blockchain = new Blockchain()
+            let bloque = localStorage.getItem("bloques")
+            console.log(bloque)
+            if(bloque != null){
+                let bloques = JSON.parse(bloque)
+                for(let i = 0; i<bloques.length; i++){
+                    let nuevo = new Bloque(bloques[i].index,bloques[i].timestap,bloques[i].data, bloques[i].nonce, bloques[i].rootmerkle, bloques[i].hash)
+                    nuevo.previoushash = bloques[i].previoushash
+                    blockchain.agregar(nuevo)
+                }
+                blockchain.graficar()
+                let grafico = localStorage.getItem("dot_blockchain")
+                d3.select("#Blockchain").graphviz()
+                    .width(1600)
+                    .height(800)
+                    .fit(true)
+                    .renderDot(grafico)
+            }
+        }
+        mostrarblockchain()
     </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

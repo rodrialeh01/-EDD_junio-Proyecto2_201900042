@@ -303,7 +303,7 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-success btn-xs" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"><i class="fa fa-shopping-cart"></i> Alquilar Pelicula</button>
                         <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
@@ -337,7 +337,7 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-success btn-xs" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"><i class="fa fa-shopping-cart"></i> Alquilar Pelicula</button>
                         <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
@@ -1029,9 +1029,9 @@ class ArbolMerkle{
 
             if(nodo.izquierda == null && nodo.derecha == null){
                 nodo.izquierda = this.iniciales[n-index--]
-                nodo.hash = Sha256.hash(nodo.izquierda.cadena)
+                nodo.hash = Sha256.hash(String(nodo.izquierda.cadena))
             }else{
-                nodo.hash = Sha256.hash(nodo.izquierda.hash+ nodo.derecha.hash)
+                nodo.hash = Sha256.hash(String(nodo.izquierda.hash)+ String(nodo.derecha.hash))
             }
         }
     }
@@ -1076,8 +1076,8 @@ class ArbolMerkle{
         if(nodo != null){
             if(nodo.izquierda instanceof NodoCadena){
                 this.codigodot+="\nnodo"+ num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
-                this.codigodot+= "\nnodo" + num + "_" + nodo.izquierda.cadena + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Cadena:" + nodo.izquierda.cadena + "\"];"
-                this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" + num + "_" + nodo.izquierda.cadena + "[headport=n][dir=back];"
+                this.codigodot+= "\nnodo" + num + "_" + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Cadena:" + nodo.izquierda.cadena + "\"];"
+                this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" + num + "_" + "[headport=n][dir=back];"
             }else{
                 if(nodo.izquierda != null){
                     this.codigodot+= "\nnodo" + num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
@@ -1109,7 +1109,7 @@ class Cadena_t{
 class nodo_c{
     constructor(cadena){
         this.cadena = cadena
-        this.cadena.siguiente = null
+        this.siguiente = null
     }
 }
 class ListaCad{
@@ -1157,8 +1157,10 @@ class Blockchain{
     agregar(_bloque){
         let nuevo = new NodoBloque(_bloque)
         if(this.bloque_genesis== null){
-            this.bloque_genesis== nuevo
+            this.bloque_genesis= nuevo
+            console.log("A")
         }else{
+            console.log("B")
             let temporal = this.bloque_genesis
             while(temporal!= null){
                 if(temporal.siguiente == null){
@@ -1166,6 +1168,8 @@ class Blockchain{
                 }
                 temporal = temporal.siguiente
             }
+            console.log("nuevo")
+            console.log(nuevo)
             nuevo.bloque.previoushash = temporal.bloque.hash
             temporal.siguiente = nuevo
         }
@@ -1175,14 +1179,13 @@ class Blockchain{
             rankdir=LR;
             node [shape = note, style=filled, fillcolor="#121212", penwidth=2.5, fontcolor=white];`
         let temporal = this.bloque_genesis
+        console.log("temp")
+        console.log(temporal)
         let contador = 0
         while(temporal != null){
-            if(temporal.bloque.previoushash == null){
-                codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash + "\\n Prev: \\nRoot Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap
-            }else{
-                codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash + "\\n Prev: " + temporal.bloque.previoushash + "\\n Root Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap
-            }
+            codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash +"\\nNonce: " + temporal.bloque.nonce+ "\\n Prev: " + temporal.bloque.previoushash + "\\n Root Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap + "\"];"
             temporal = temporal.siguiente
+            console.log(temporal)
             contador++
         }
         contador = 0
