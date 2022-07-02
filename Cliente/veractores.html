@@ -88,18 +88,28 @@
                      </div>
                      <div class="dropdown_section">
                         <div class="dropdown">
-                           <select name="Tipo" id="ordenamiento" class="btn bg-gradient-primary dropdown-toggle">
-                              <option class="dropdown-item" value="Ascendente">In Orden</option>
-                              <option class="dropdown-item" value="Descendente">Pre Orden</option>
-                              <option class="dropdown-item" value="Descendente">Post Orden</option>
+                           <select name="Tipo" id="ordenarbol" class="btn bg-gradient-primary dropdown-toggle">
+                              <option class="dropdown-item" value="In Orden">In Orden</option>
+                              <option class="dropdown-item" value="Pre Orden">Pre Orden</option>
+                              <option class="dropdown-item" value="Post Orden">Post Orden</option>
                            </select>
                            <div class="field margin_0">
-                              <button class="main_bt" onclick="opcion()">Seleccionar Ordenamiento</button>
+                              <button class="main_bt" onclick="mostrar_actores()">Seleccionar Ordenamiento</button>
                            </div>
                         </div>
                      </div>
-                     <div id="mostrarbooks">
-                     </div>
+                        <div class="white_shd full margin_bottom_30">
+                           <div class="full progress_bar_inner">
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <div class="msg_list_main">
+                                       <ul class="msg_list" id="mostraractores">
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                   </div>
                </div>
                <!-- end dashboard inner -->
@@ -114,11 +124,44 @@
       <script>
          var usuariolog = sessionStorage.getItem("usuariologueado")
          function mostraru(){
+            console.log(usuariolog)
             let nombre = document.getElementById("mostraruser")
-            //let obj = JSON.parse(usuariolog)
-            nombre.innerHTML = "Cliente"
+            let obj = JSON.parse(usuariolog)
+            nombre.innerHTML = "Cliente @" + obj.username
          }
          mostraru()
+         function mostrar_actores(){
+            let contenido = document.getElementById("mostraractores")
+            let arbol = new ArbolABB()
+            let jtexto = JSON.parse(localStorage.getItem("actores"))
+            for(let i = 0; i<jtexto.length; i++){
+               let dni = jtexto[i].dni;
+               let nombre = jtexto[i].nombre_actor;
+               let correo = jtexto[i].correo;
+               let descripcion = jtexto[i].descripcion;
+               let nuevo = new Actor(dni,nombre,correo,descripcion)
+               arbol.insertar(nuevo)
+            }
+            let op = document.getElementById("ordenarbol")
+            let ord =op.options[op.selectedIndex].text
+            console.log(ord)
+            if(ord=="In Orden"){
+               console.log("===================INORDEN===================")
+               arbol.mostrar=""
+               arbol.inorden()
+               contenido.innerHTML = arbol.mostrar
+            }else if(ord=="Pre Orden"){
+               console.log("===================PREORDEN===================")
+               arbol.mostrar=""
+               arbol.preorden()
+               contenido.innerHTML = arbol.mostrar
+            }else if(ord=="Post Orden"){
+               console.log("===================POSTORDEN===================")
+               arbol.mostrar=""
+               arbol.postorden()
+               contenido.innerHTML = arbol.mostrar
+            }
+         }
       </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>

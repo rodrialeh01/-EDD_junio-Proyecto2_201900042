@@ -403,6 +403,7 @@ class ArbolABB{
     constructor(){
         this.raiz =  null
         this.codigodot = ""
+        this.mostrar = ""
     }
     insertar(_actor){
         this.raiz = this.Agregar(_actor,this.raiz)
@@ -442,6 +443,63 @@ class ArbolABB{
         this.codigodot+="\n}"
         console.log(this.codigodot)
         localStorage.setItem("dotactores", this.codigodot)
+    }
+    inorden(){
+        this.in_orden(this.raiz)
+    }
+    in_orden(nodo){
+        if(nodo!= null){
+            this.in_orden(nodo.izquierda)
+            console.log(nodo.actor.dni)
+            this.mostrar+=`
+        <li>
+            <span>
+            <span class="name_user">${nodo.actor.nombre}</span>
+            <span class="msg_user"><strong>Correo:</strong> ${nodo.actor.correo}</span><br><br>
+            <span class="msg_user"><strong><strong>Descripción: </strong></strong>${nodo.actor.descripcion}</span>
+            <span class="time_ago">DNI: ${nodo.actor.dni}</span>
+            </span>
+        </li>`
+            this.in_orden(nodo.derecha)
+        }
+    }
+    postorden(){
+        this.post_orden(this.raiz)
+    }
+    post_orden(nodo){
+        if(nodo!= null){
+            this.post_orden(nodo.izquierda)
+            this.post_orden(nodo.derecha)
+            console.log(nodo.actor.dni)
+            this.mostrar+=`
+        <li>
+            <span>
+            <span class="name_user">${nodo.actor.nombre}</span>
+            <span class="msg_user"><strong>Correo:</strong> ${nodo.actor.correo}</span><br><br>
+            <span class="msg_user"><strong><strong>Descripción: </strong></strong>${nodo.actor.descripcion}</span>
+            <span class="time_ago">DNI: ${nodo.actor.dni}</span>
+            </span>
+        </li>`
+        }
+    }
+    preorden(){
+        this.pre_orden(this.raiz)
+    }
+    pre_orden(nodo){
+        if(nodo!= null){
+            console.log(nodo.actor.dni)
+            this.mostrar+=`
+        <li>
+            <span>
+            <span class="name_user">${nodo.actor.nombre}</span>
+            <span class="msg_user"><strong>Correo:</strong> ${nodo.actor.correo}</span><br><br>
+            <span class="msg_user"><strong><strong>Descripción: </strong></strong>${nodo.actor.descripcion}</span>
+            <span class="time_ago">DNI: ${nodo.actor.dni}</span>
+            </span>
+        </li>`
+            this.pre_orden(nodo.izquierda)
+            this.pre_orden(nodo.derecha)
+        }
     }
 }
 

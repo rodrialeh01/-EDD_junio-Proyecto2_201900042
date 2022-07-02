@@ -101,9 +101,10 @@
       <script>
          var usuariolog = sessionStorage.getItem("usuariologueado")
          function mostraru(){
+            console.log(usuariolog)
             let nombre = document.getElementById("mostraruser")
-            //let obj = JSON.parse(usuariolog)
-            nombre.innerHTML = "Cliente"
+            let obj = JSON.parse(usuariolog)
+            nombre.innerHTML = "Cliente @" + obj.username
          }
          mostraru()
       </script>
