@@ -159,7 +159,7 @@
                     d3.select("#grafico").graphviz()
                         .width(1600)
                         .height(800)
-                        .scale(0.15)
+                        .fit(true)
                         .renderDot(dotclientes)
                 }
             }else if(tipoedd=="Arbol AVL de Peliculas"){
@@ -179,6 +179,7 @@
                 d3.select("#grafico").graphviz()
                         .width(1600)
                         .height(800)
+                        .fit(true)
                         .renderDot(grafo)
             }else if(tipoedd=="Arbol Binario de Actores"){
                 let abb = new ArbolABB()
@@ -196,6 +197,7 @@
                 d3.select("#grafico").graphviz()
                         .width(1600)
                         .height(800)
+                        .fit(true)
                         .renderDot(grafo)
             }else if(tipoedd=="Tabla Hash de de Categorias"){
                 let hash = new TablaHash()
@@ -213,7 +215,7 @@
                     d3.select("#grafico").graphviz()
                         .width(1600)
                         .height(800)
-                        .scale(0.15)
+                        .fit(true)
                         .renderDot(dotcat)
                 }
             }

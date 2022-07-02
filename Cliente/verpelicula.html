@@ -109,10 +109,40 @@
          }
          mostraru()
          function mostrarpelicula(){
-            console.log("Hola")
-            let peli = sessionStorage.getItem("peliculaver")
+            let peli = ""
+            peli = sessionStorage.getItem("peliculaver")
+            console.log("PELI: " + peli)
             let contenido = document.getElementById("infopeli")
+            console.log(localStorage.getItem("peliculas"))
+            console.log("---------------")
             let jtexto = JSON.parse(localStorage.getItem("peliculas"))
+            console.log(jtexto)
+            let jtexto2 = JSON.parse(localStorage.getItem("clientes"))
+            let lcomentarios = localStorage.getItem("comentarios")
+            console.log(lcomentarios)
+            let listac = new ListaSimple()
+            let listacoments = new ListaComentarios()
+            if(lcomentarios != null){
+               let lcomentariosj = JSON.parse(lcomentarios)
+               for(let i = 0; i<lcomentariosj.length; i++){
+                  let cliente = lcomentariosj[i].cliente;
+                  let pelicula = lcomentariosj[i].pelicula;
+                  let comentario = lcomentariosj[i].comentario;
+                  let nuevo = new Comentario(cliente,pelicula,comentario)
+                  console.log(nuevo)
+                  listacoments.insertar(nuevo)
+               }
+            }
+            for(let i = 0; i<jtexto2.length; i++){
+               let dpi = jtexto2[i].dpi;
+               let nombre = jtexto2[i].nombre;
+               let username = jtexto2[i].username;
+               let correo = jtexto2[i].correo;
+               let contrasenia = jtexto2[i].contrasenia;
+               let telefono = jtexto2[i].telefono;
+               let nuevo = new Cliente(dpi,nombre,username,correo,contrasenia,telefono)
+               listac.insertar(nuevo)
+            }
             let arbol = new ArbolAVL()
             for(let i = 0; i<jtexto.length; i++){
                let id = jtexto[i].id_pelicula;
@@ -124,6 +154,7 @@
                arbol.insertar(nuevo)
             } 
             let pelicula = arbol.buscar(arbol.raiz, Number(peli))
+            let comentariosanteriores = ""
             let agregar = ""
             agregar += `<div class="col-md-2"></div>
                         <div class="col-md-8">
@@ -134,11 +165,11 @@
                                        <div class="full dis_flex center_text">
                                           <div class="profile_contant">
                                              <div class="contact_inner">
-                                                <h2>${pelicula.nombre}</h2>
+                                                <h2 id="nombrepeli">${pelicula.nombre_pelicula}</h2>
                                              </div>
                                              <div class="user_progress_bar">
                                                 <div class="progress_bar">
-                                                   <span class="skill"><strong>Precio: Q${pelicula.precio}</strong></span><br><br>
+                                                   <span class="skill"><strong>Precio: Q${pelicula.precio_Q}</strong></span><br><br>
                                                    <!-- Skill Bars -->
                                                    <span class="skill"><strong>Descripción</strong></span><br>
                                                    <span class="skill">${pelicula.descripcion}</span>
@@ -146,7 +177,7 @@
                                                    <div class="left_rating">
                                                       <p>Puntuación de la Pelicula:</p>
                                                       <p class="ratings">`
-            let puntuacion = pelicula.puntuacion
+            let puntuacion = Number(pelicula.puntuacion_star)
             let puntuacionvacia = 5-puntuacion
                                                    for(let i = 0; i<puntuacion; i++){
                                                       agregar+=`<a href="#"><span class="fa fa-star"></span></a>`
@@ -165,7 +196,7 @@
                                                          <form>
                                                             <div class="field">
                                                                <label>Agrega tu Puntuación</label>
-                                                                  <select name="Tipo" id="ordenamiento" class="btn bg-gradient-primary dropdown-toggle">
+                                                                  <select name="Tipo" id="numeros" class="btn bg-gradient-primary dropdown-toggle">
                                                                      <option class="dropdown-item" value="0">0</option>
                                                                      <option class="dropdown-item" value="1">1</option>
                                                                      <option class="dropdown-item" value="2">2</option>
@@ -176,7 +207,7 @@
                                                             </div>
                                                          </form>
                                                       </div>
-                                                      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-star-o"></i> Modificar Puntuación</button>
+                                                      <button type="button" class="btn btn-primary btn-xs" onclick="NuevaPuntuacion()"><i class="fa fa-star-o"></i> Modificar Puntuación</button>
                                                       <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart"></i> Alquilar Pelicula</button>
                                                    </div>
                                                 </div>
@@ -196,14 +227,27 @@
                                                 <div class="tab-content" id="nav-tabContent">
                                                    <div class="tab-pane fade show active" id="recent_activity" role="tabpanel" aria-labelledby="nav-home-tab">
                                                       <div class="msg_list_main">
-                                                         <ul class="msg_list">
-                                                            <li>
-                                                               <span>
-                                                               <span class="name_user">Fulano</span>
-                                                               <span class="msg_user">Comentario</span>
-                                                               </span>
-                                                            </li>
-                                                         </ul>
+                                                         <ul class="msg_list">`
+                                                            if (lcomentarios != null){
+                                                               let contador = 0
+                                                               console.log(peli)
+                                                               let user = JSON.parse(usuariolog).username
+                                                               while(contador !=listacoments.tamanio){
+                                                                  if(listacoments.obtenercomentario(contador,peli) != null){
+                                                                     let coment = listacoments.obtenercomentario(contador,peli)
+                                                                     console.log(coment)
+                                                                     agregar+= `
+                                                                  <li>
+                                                                     <span>
+                                                                     <span class="name_user">${coment.cliente}</span>
+                                                                     <span class="msg_user">${coment.comentario}</span>
+                                                                     </span>
+                                                                  </li>`
+                                                                  }
+                                                                  contador++
+                                                               }
+                                                            }
+                                                         agregar+= `</ul>
                                                       </div>
                                                    </div>
                                                    <div class="tab-pane fade" id="project_worked" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -212,10 +256,10 @@
                                                             <fieldset>
                                                                <div class="field">
                                                                   <label class="label_field">Comentario:</label>
-                                                                  <input type="text" name="email" placeholder="Ingresa tus comentarios de esta pelicula" />
+                                                                  <input type="text" id="comentariouser" name="text" placeholder="Ingresa tus comentarios de esta pelicula" />
                                                                </div>
                                                                <div class="field margin_0">
-                                                                  <button class="main_bt">Agregar mi Comentario</button>
+                                                                  <button class="main_bt" onclick="agregarcomentario()">Agregar mi Comentario</button>
                                                                </div>
                                                             </fieldset>
                                                          </form>
@@ -235,6 +279,72 @@
             contenido.innerHTML = agregar
          }
          mostrarpelicula()
+         function agregarcomentario(){
+            let comentariouser = document.getElementById("comentariouser").value 
+            let peli = sessionStorage.getItem("peliculaver")
+            console.log(peli.value)
+            let lcomentarios = localStorage.getItem("comentarios")
+            let listacoments = new ListaComentarios()
+            if(lcomentarios != null){
+               let lcomentariosj = JSON.parse(lcomentarios)
+               for(let i = 0; i<lcomentariosj.length; i++){
+                  let cliente = lcomentariosj[i].cliente;
+                  let pelicula = lcomentariosj[i].pelicula;
+                  let comentario = lcomentariosj[i].comentario;
+                  let nuevo = new Comentario(cliente,pelicula,comentario)
+                  listacoments.insertar(nuevo)
+               }
+            }
+            if(comentariouser != ""){
+               let usuario = JSON.parse(usuariolog).username
+               let nuevo = new Comentario(usuario,peli,comentariouser)
+               listacoments.insertar(nuevo)
+               let guardar = "["
+               let temporal = listacoments.cabeza
+               while(temporal!= null){
+                  console.log(JSON.stringify(temporal.comentario))
+                  if(temporal.siguiente == null){
+                     guardar+= JSON.stringify(temporal.comentario)
+                     temporal = temporal.siguiente
+                  }else{
+                     guardar+= JSON.stringify(temporal.comentario) + ","
+                     temporal = temporal.siguiente
+                  }
+               }
+               guardar+="]"
+               localStorage.setItem("comentarios",guardar)
+               location.href="./verpelicula.html"
+               alert("Gracias por tu comentario :D")
+            }else{
+               alert("Ingresa un comentario")
+            }
+         }
+         function NuevaPuntuacion(){
+            let peli = ""
+            peli = sessionStorage.getItem("peliculaver")
+            let op = document.getElementById("numeros")
+            let nuevapunt = op.options[op.selectedIndex].text
+            let jtexto = JSON.parse(localStorage.getItem("peliculas"))
+            let arbol = new ArbolAVL()
+            for(let i = 0; i<jtexto.length; i++){
+               let id = jtexto[i].id_pelicula;
+               let nombre = jtexto[i].nombre_pelicula;
+               let descripcion = jtexto[i].descripcion;
+               let puntuacion = jtexto[i].puntuacion_star;
+               let precio = jtexto[i].precio_Q;
+               let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
+               arbol.insertar(nuevo)
+            } 
+            let pelicula = arbol.buscar(arbol.raiz, Number(peli))
+            pelicula.puntuacion_star = Number(nuevapunt)
+            arbol.guardar = "["
+            arbol.preordenGuardar()
+            const guardar2 = arbol.guardar.substring(0,arbol.guardar.length-1)
+            arbol.guardar = guardar2+"]"
+            localStorage.setItem("peliculas",arbol.guardar)
+            location.href="./verpelicula.html"
+            alert("Gracias por tu nueva puntuación :D")
+         }
       </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>

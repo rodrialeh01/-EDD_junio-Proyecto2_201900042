@@ -12,6 +12,7 @@ class ArbolAVL{
         this.raiz = null
         this.codigodot = ""
         this.mostrar = ""
+        this.guardar = "["
     }
     insertar(_pelicula){
         this.raiz = this.insertarrecursivo(_pelicula,this.raiz)
@@ -20,19 +21,19 @@ class ArbolAVL{
         if(nodo == null){
             return new NodoAVL(pelicula)
         }else{
-            if(pelicula.id < nodo.pelicula.id){
+            if(pelicula.id_pelicula < nodo.pelicula.id_pelicula){
                 nodo.izquierda = this.insertarrecursivo(pelicula, nodo.izquierda)
                 if(this.altura(nodo.derecha)-this.altura(nodo.izquierda) == -2){
-                    if(pelicula.id< nodo.izquierda.pelicula.id){
+                    if(pelicula.id_pelicula< nodo.izquierda.pelicula.id_pelicula){
                         nodo = this.rotacionizquierda(nodo)
                     }else{
                         nodo = this.rotaciondobleizquierda(nodo)
                     }
                 }
-            }else if(pelicula.id > nodo.pelicula.id){
+            }else if(pelicula.id_pelicula > nodo.pelicula.id_pelicula){
                 nodo.derecha = this.insertarrecursivo(pelicula, nodo.derecha)
                 if(this.altura(nodo.derecha)-this.altura(nodo.izquierda)==2){
-                    if(pelicula.id > nodo.derecha.pelicula.id){
+                    if(pelicula.id_pelicula > nodo.derecha.pelicula.id_pelicula){
                         nodo = this.rotacionderecha(nodo)
                     }else{
                         nodo = this.rotaciondoblederecha(nodo)
@@ -91,12 +92,12 @@ class ArbolAVL{
     }
     pre_ordenG(nodo){
         if(nodo != null){
-            this.codigodot+= "\nnodo" + nodo.pelicula.id + "[shape=circle,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Pelicula:" + nodo.pelicula.nombre + "\\nID:" + nodo.pelicula.id+ "\"];"
+            this.codigodot+= "\nnodo" + nodo.pelicula.id_pelicula + "[shape=circle,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Pelicula:" + nodo.pelicula.nombre_pelicula + "\\nID:" + nodo.pelicula.id_pelicula+ "\"];"
             if(nodo.izquierda != null){
-                this.codigodot += "\nnodo" + nodo.pelicula.id + " -> nodo" + nodo.izquierda.pelicula.id + "[headport=n];"
+                this.codigodot += "\nnodo" + nodo.pelicula.id_pelicula + " -> nodo" + nodo.izquierda.pelicula.id_pelicula + "[headport=n];"
             }
             if(nodo.derecha != null){
-                this.codigodot += "\nnodo" + nodo.pelicula.id + " -> nodo" + nodo.derecha.pelicula.id + "[headport=n];"
+                this.codigodot += "\nnodo" + nodo.pelicula.id_pelicula + " -> nodo" + nodo.derecha.pelicula.id_pelicula + "[headport=n];"
             }
             this.pre_ordenG(nodo.izquierda)
             this.pre_ordenG(nodo.derecha)
@@ -119,11 +120,11 @@ class ArbolAVL{
             <div class="contact_blog">
                <div class="contact_inner">
                   <div class="left">
-                     <h2>${nodo.pelicula.nombre}</h2>
-                     <p><strong>ID: </strong>${nodo.pelicula.id}</p>
+                     <h2>${nodo.pelicula.nombre_pelicula}</h2>
+                     <p><strong>ID: </strong>${nodo.pelicula.id_pelicula}</p>
                      <br>
                      <p><strong>Descripción: </strong>${nodo.pelicula.descripcion}</p>
-                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio}</h3>
+                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio_Q}</h3>
                   </div>
                   <div class="right">
                      <div class="profile_contacts">
@@ -132,8 +133,8 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id}></i> Alquilar Pelicula</button>
-                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id} onclick="verPelicula(this)">
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
                   </div>
@@ -153,11 +154,11 @@ class ArbolAVL{
             <div class="contact_blog">
                <div class="contact_inner">
                   <div class="left">
-                     <h2>${nodo.pelicula.nombre}</h2>
-                     <p><strong>ID: </strong>${nodo.pelicula.id}</p>
+                     <h2>${nodo.pelicula.nombre_pelicula}</h2>
+                     <p><strong>ID: </strong>${nodo.pelicula.id_pelicula}</p>
                      <br>
                      <p><strong>Descripción: </strong>${nodo.pelicula.descripcion}</p>
-                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio}</h3>
+                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio_Q}</h3>
                   </div>
                   <div class="right">
                      <div class="profile_contacts">
@@ -166,8 +167,8 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id}></i> Alquilar Pelicula</button>
-                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id} onclick="verPelicula(this)">
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
                   </div>
@@ -201,24 +202,35 @@ class ArbolAVL{
         if(nodo == null){
             return null
         }else{
-            if(nodo.pelicula.id == _id){
+            if(nodo.pelicula.id_pelicula == _id){
                 return nodo.pelicula
-            }else if(_id < nodo.pelicula.id){
+            }else if(_id < nodo.pelicula.id_pelicula){
                 return this.buscar(nodo.izquierda,_id)
-            }else if(_id > nodo.pelicula.id){
+            }else if(_id > nodo.pelicula.id_pelicula){
                 return this.buscar(nodo.derecha,_id)
             }
+        }
+    }
+    preordenGuardar(){
+        this.pre_ordenGuardar(this.raiz)
+    }
+    pre_ordenGuardar(nodo){
+        if(nodo != null){
+            this.guardar+=JSON.stringify(nodo.pelicula) + ","
+            console.log(this.guardar)
+            this.pre_ordenGuardar(nodo.izquierda)
+            this.pre_ordenGuardar(nodo.derecha)
         }
     }
 }
 
 class Pelicula{
     constructor(_id,_nombre,_descripcion,_puntuacion,_precio){
-        this.id = _id
-        this.nombre = _nombre
+        this.id_pelicula = _id
+        this.nombre_pelicula = _nombre
         this.descripcion = _descripcion
-        this.puntuacion = _puntuacion
-        this.precio = _precio
+        this.puntuacion_star = _puntuacion
+        this.precio_Q = _precio
     }
 }
 
@@ -291,6 +303,16 @@ class ListaSimple{
                 if(temporal.cliente.contrasenia == password){
                     return temporal.cliente
                 }
+            }
+            temporal = temporal.siguiente
+        }
+        return null
+    }
+    retornaruser(_username){
+        let temporal = this.primero
+        while(temporal != null){
+            if(temporal.cliente.username == _username){
+                return temporal.cliente
             }
             temporal = temporal.siguiente
         }
@@ -648,4 +670,56 @@ function CargaCategorias(){
     });
     reader.readAsText(archivo, "UTF-8");
     alert("Se cargaron las categorias exitosamente")
+}
+
+class Comentario{
+    constructor(_cliente, _pelicula, _comentario){
+        this.id = 0
+        this.cliente = _cliente
+        this.pelicula = _pelicula
+        this.comentario = _comentario
+    }
+}
+
+class NodoComentario{
+    constructor(_comentario){
+        this.comentario = _comentario
+        this.siguiente = null
+    }
+}
+
+class ListaComentarios{
+    constructor(){
+        this.cabeza = null
+        this.tamanio = 0
+    }
+    insertar(_comentario){
+        let nuevo = new NodoComentario(_comentario)
+        if(this.cabeza == null){
+            nuevo.comentario.id = 0
+            this.cabeza = nuevo
+            this.tamanio++
+        }else{
+            let temporal = this.cabeza
+            while(temporal!= null){
+                if(temporal.siguiente == null){
+                    break
+                }
+                temporal = temporal.siguiente
+            }
+            nuevo.comentario.id = temporal.comentario.id +1
+            temporal.siguiente = nuevo
+            this.tamanio++
+        }
+    }
+    obtenercomentario(_id,_pelicula){
+        let temporal = this.cabeza
+        while(temporal != null){
+            if(temporal.comentario.id == _id && temporal.comentario.pelicula == _pelicula){
+                return temporal.comentario
+            }
+            temporal = temporal.siguiente
+        }
+        return null
+    }
 }
