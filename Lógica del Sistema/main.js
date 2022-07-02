@@ -557,6 +557,7 @@ class TablaHash{
         this.tamanio = 0
         this.cabeza = null
         this.llenos = 0
+        this.mostrar = ""
         this.llenadoinicial()
     }
     llenadoinicial(){
@@ -698,6 +699,38 @@ class TablaHash{
         codigodot += nodos + conexiones + "\n}"
         console.log(codigodot)
         localStorage.setItem("dothash",codigodot)
+    }
+    mostrarhtml(){
+        let temporal = this.cabeza
+        while(temporal != null){
+            if(temporal.categoria != null){
+                this.mostrar+=`
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                    <div class="card-body">
+                        <h1 class="card-title">Categoria ID ${temporal.categoria.id}</h1>
+                        <h5 class="card-text">Company: ${temporal.categoria.company}</h5>
+                    </div>
+                    </div><br>
+                </div>`
+                if(temporal.derecho != null){
+                    let tempo2 = temporal.derecho
+                    while(tempo2!= null){
+                        this.mostrar+=`
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                    <div class="card-body">
+                        <h1 class="card-title">Categoria ID ${temporal.categoria.id}</h1>
+                        <h5 class="card-text">Company: ${temporal.categoria.company}</h5>
+                    </div>
+                    </div>
+                </div><br>`
+                        tempo2 = tempo2.derecho
+                    }
+                }
+            }
+            temporal = temporal.siguiente
+        }
     }
 }
 
