@@ -303,7 +303,7 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"></i> Alquilar Pelicula</button>
                         <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
@@ -337,7 +337,7 @@ class ArbolAVL{
                   </div>
                   <div class="bottom_list">
                      <div class="right_button">
-                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id_pelicula} onclick="rentar(this)"></i> Alquilar Pelicula</button>
                         <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id_pelicula} onclick="verPelicula(this)">
                         <i class="fa fa-play"> </i> Mas Información</button>
                      </div>
@@ -1061,12 +1061,7 @@ class ArbolMerkle{
             }
         }else{
             for(let i = this.iniciales.length; i < Math.pow(2,exp); i++){
-                if(i%2==0){
-                    this.iniciales.push(new NodoCadena(this.iniciales[this.iniciales.length-2].cadena))
-                }else{
-                    this.iniciales.push(new NodoCadena(this.iniciales[this.iniciales.length-2].cadena))
-                }
-                
+                this.iniciales.push(new NodoCadena(this.iniciales[this.iniciales.length-2].cadena))
             }
         }
         index = Math.pow(2,exp)
@@ -1080,17 +1075,17 @@ class ArbolMerkle{
     pre_ordenG(nodo, num){
         if(nodo != null){
             if(nodo.izquierda instanceof NodoCadena){
-                this.codigodot+="\nnodo"+ num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
-                this.codigodot+= "\nnodo" + num + "_" + nodo.izquierda.cadena + "[shape=box,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Cadena:" + nodo.izquierda.cadena + "\"];"
-                this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" + num + "_" + nodo.izquierda.cadena + "[headport=n];"
+                this.codigodot+="\nnodo"+ num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
+                this.codigodot+= "\nnodo" + num + "_" + nodo.izquierda.cadena + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Cadena:" + nodo.izquierda.cadena + "\"];"
+                this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" + num + "_" + nodo.izquierda.cadena + "[headport=n][dir=back];"
             }else{
                 if(nodo.izquierda != null){
-                    this.codigodot+= "\nnodo" + num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
-                    this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" +(2*num)+"_"+ nodo.izquierda.hash + "[headport=n];"
+                    this.codigodot+= "\nnodo" + num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
+                    this.codigodot += "\nnodo"+ num + "_" + nodo.hash + " -> nodo" +(2*num)+"_"+ nodo.izquierda.hash + "[headport=n][dir=back];"
                 }
                 if(nodo.derecha != null){
-                    this.codigodot+= "\nnodo" + num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#0CA1EB\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
-                    this.codigodot += "\nnodo" + num + "_" + nodo.hash + " -> nodo" +((2*num)+1)+"_"+ nodo.derecha.hash + "[headport=n];"
+                    this.codigodot+= "\nnodo" + num + "_" + nodo.hash + "[shape=box,style=\"filled\",fillcolor=\"#7918A4\",fontcolor=\"white\" label=\"Hash:" + nodo.hash + "\"];"
+                    this.codigodot += "\nnodo" + num + "_" + nodo.hash + " -> nodo" +((2*num)+1)+"_"+ nodo.derecha.hash + "[headport=n][dir=back];"
                 }
             }
             let numi = 2*num
@@ -1104,5 +1099,104 @@ class ArbolMerkle{
         this.preordenG()
         this.codigodot+="\n}"
         console.log(this.codigodot)
+    }
+}
+class Cadena_t{
+    constructor(_cadena){
+        this.cadena = _cadena
+    }
+}
+class nodo_c{
+    constructor(cadena){
+        this.cadena = cadena
+        this.cadena.siguiente = null
+    }
+}
+class ListaCad{
+    constructor(){
+        this.primero = null
+    }
+    insertar(_cadena){
+        let nuevo = new nodo_c(_cadena)
+        if(this.primero == null){
+            this.primero = nuevo
+        }else{
+            let temporal = this.primero
+            while(temporal!= null){
+                if(temporal.siguiente == null){
+                    break
+                }
+                temporal = temporal.siguiente
+            }
+            temporal.siguiente = nuevo
+        }
+    }
+}
+class Bloque{
+    constructor(_index,_timestap,_data,_nonce,_rootmerkle,_hash){
+        this.index = _index
+        this.timestap = _timestap
+        this.data = _data
+        this.nonce = _nonce
+        this.previoushash = "00"
+        this.rootmerkle = _rootmerkle
+        this.hash = _hash
+    }
+}
+class NodoBloque{
+    constructor(_bloque){
+        this.bloque = _bloque
+        this.siguiente = null
+    }
+}
+
+class Blockchain{
+    constructor(){
+        this.bloque_genesis = null
+    }
+    agregar(_bloque){
+        let nuevo = new NodoBloque(_bloque)
+        if(this.bloque_genesis== null){
+            this.bloque_genesis== nuevo
+        }else{
+            let temporal = this.bloque_genesis
+            while(temporal!= null){
+                if(temporal.siguiente == null){
+                    break
+                }
+                temporal = temporal.siguiente
+            }
+            nuevo.bloque.previoushash = temporal.bloque.hash
+            temporal.siguiente = nuevo
+        }
+    }
+    graficar(){
+        let codigodot = `digraph List {
+            rankdir=LR;
+            node [shape = note, style=filled, fillcolor="#121212", penwidth=2.5, fontcolor=white];`
+        let temporal = this.bloque_genesis
+        let contador = 0
+        while(temporal != null){
+            if(temporal.bloque.previoushash == null){
+                codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash + "\\n Prev: \\nRoot Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap
+            }else{
+                codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash + "\\n Prev: " + temporal.bloque.previoushash + "\\n Root Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap
+            }
+            temporal = temporal.siguiente
+            contador++
+        }
+        contador = 0
+        temporal = this.bloque_genesis
+        while(temporal!= null){
+            if(temporal.siguiente!= null){
+                let aux = contador+1
+                codigodot+= "\nnodo" + contador + " -> nodo" + aux
+            }
+            temporal = temporal.siguiente
+            contador++
+        }
+        codigodot+="\n}"
+        console.log(codigodot)
+        localStorage.setItem("dot_blockchain",codigodot)
     }
 }

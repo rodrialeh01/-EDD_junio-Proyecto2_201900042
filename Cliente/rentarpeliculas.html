@@ -150,6 +150,62 @@
             sessionStorage.setItem("peliculaver", peli)
             location.href="./verpelicula.html"
          }
+         function rentar(boton){
+            console.log(":(")
+            let idpeli = boton.value
+            let jtexto = JSON.parse(localStorage.getItem("peliculas"))
+            let trans = localStorage.getItem("transacciones")
+            let lista = new ListaCad()
+            let arbol = new ArbolAVL()
+            for(let i = 0; i<jtexto.length; i++){
+               let id = jtexto[i].id_pelicula;
+               let nombre = jtexto[i].nombre_pelicula;
+               let descripcion = jtexto[i].descripcion;
+               let puntuacion = jtexto[i].puntuacion_star;
+               let precio = jtexto[i].precio_Q;
+               let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
+               arbol.insertar(nuevo)
+            } 
+            let pelicula = arbol.buscar(arbol.raiz, Number(peli))
+            if(trans != null){
+               let tansj = JSON.parse(trans)
+               for(let i = 0; i<transj.length; i++){
+                  let cad = new Cadena_t(transj[i].cadena);
+                  lista.insertar(cad)
+               } 
+               let nombre = JSON.parse(usuariolog).nombre
+               let cad1 = new Cadena_t(`${nombre} - ${pelicula.nombre_pelicula}`)
+               lista.insertar(cad1)
+               let temporal = lista.primero
+               let guardar = "["
+               while(temporal!= null){
+                  if(temporal.siguiente == null){
+                     guardar+= JSON.stringify(temporal.cadena) + "]"
+                     break
+                  }
+                  guardar+= JSON.stringify(temporal.cadena) + ","
+                  temporal = temporal.siguiente
+               }
+               localStorage.setItem("transacciones",guardar)
+            }else{
+               let nombre = JSON.parse(usuariolog).nombre
+               let cad1 = new Cadena_t(`${nombre} - ${pelicula.nombre_pelicula}`)
+               lista.insertar(cad1)
+               let temporal = lista.primero
+               let guardar = "["
+               while(temporal!= null){
+                  if(temporal.siguiente == null){
+                     guardar+= JSON.stringify(temporal.cadena) + "]"
+                     break
+                  }
+                  guardar+= JSON.stringify(temporal.cadena) + ","
+                  temporal = temporal.siguiente
+               }
+               localStorage.setItem("transacciones",guardar)
+            }
+            alert('Pelicula alquilada con éxito')
+            location.href="./rentarpeliculas.html"
+         }
       </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>
