@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+   
 </head>
 
 <body id="page-top">
@@ -123,9 +123,10 @@
                             <div class="card-body">
                                 <div id="grafico">
                                 </div>
-                                <button type="submit" class="btn btn-primary text btn-lg" onclick="descargardot()"><span class="icon text-white-50">
+                                <button type="submit" class="btn btn-primary text btn-lg" id="descargar"><span class="icon text-white-50">
                                 </span>Descargar </button>
                             </div>
+                            <div id="#previewImage"></div>
                         </div>
                     </div>
                 </div>
@@ -141,6 +142,9 @@
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
     <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+    <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../Lógica del Sistema/main.js"></script>
     <script>
         function SeleccionarEDD(){
@@ -220,10 +224,15 @@
                 }
             }
         }
-        
-        function descargardot(){
-            
-        }
+        $(document).ready(function(){
+
+$("#descargar").click(function() {
+          html2canvas($('#grafico')[0]).then(function(canvas) {
+          return Canvas2Image.saveAsPNG(canvas);
+          $(".response").append(canvas);
+   });
+  });
+});
     </script>
     <!-- End of Page Wrapper -->
     <script src="../Lógica del Sistema/main.js"></script>
