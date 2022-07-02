@@ -11,6 +11,7 @@ class ArbolAVL{
     constructor(){
         this.raiz = null
         this.codigodot = ""
+        this.mostrar = ""
     }
     insertar(_pelicula){
         this.raiz = this.insertarrecursivo(_pelicula,this.raiz)
@@ -107,6 +108,107 @@ class ArbolAVL{
         this.codigodot+="\n}"
         console.log(this.codigodot)
         localStorage.setItem("dotpeliculas", this.codigodot)
+    }
+    inordenA(){
+        this.in_ordenA(this.raiz)
+    }
+    in_ordenA(nodo){
+        if(nodo != null){
+            this.in_ordenA(nodo.izquierda)
+            this.mostrar += `<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 profile_details margin_bottom_30">
+            <div class="contact_blog">
+               <div class="contact_inner">
+                  <div class="left">
+                     <h2>${nodo.pelicula.nombre}</h2>
+                     <p><strong>ID: </strong>${nodo.pelicula.id}</p>
+                     <br>
+                     <p><strong>Descripción: </strong>${nodo.pelicula.descripcion}</p>
+                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio}</h3>
+                  </div>
+                  <div class="right">
+                     <div class="profile_contacts">
+                        <img class="img-responsive" src="images/layout_img/msg2.png" alt="#" />
+                     </div>
+                  </div>
+                  <div class="bottom_list">
+                     <div class="right_button">
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id} onclick="verPelicula(this)">
+                        <i class="fa fa-play"> </i> Mas Información</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>`
+            this.in_ordenA(nodo.derecha)
+        }
+    }
+    inordenD(){
+        this.in_ordenD(this.raiz)
+    }
+    in_ordenD(nodo){
+        if(nodo != null){
+            this.in_ordenD(nodo.derecha)
+            this.mostrar += `<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 profile_details margin_bottom_30">
+            <div class="contact_blog">
+               <div class="contact_inner">
+                  <div class="left">
+                     <h2>${nodo.pelicula.nombre}</h2>
+                     <p><strong>ID: </strong>${nodo.pelicula.id}</p>
+                     <br>
+                     <p><strong>Descripción: </strong>${nodo.pelicula.descripcion}</p>
+                     <h3><strong>Precio: </strong>Q${nodo.pelicula.precio}</h3>
+                  </div>
+                  <div class="right">
+                     <div class="profile_contacts">
+                        <img class="img-responsive" src="images/layout_img/msg2.png" alt="#" />
+                     </div>
+                  </div>
+                  <div class="bottom_list">
+                     <div class="right_button">
+                        <button type="button" class="btn btn-success btn-xs"><i class="fa fa-shopping-cart" value=${nodo.pelicula.id}></i> Alquilar Pelicula</button>
+                        <button type="button" class="btn btn-primary btn-xs" value=${nodo.pelicula.id} onclick="verPelicula(this)">
+                        <i class="fa fa-play"> </i> Mas Información</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>`
+            this.in_ordenD(nodo.izquierda)
+        }
+    }
+    inorden(){
+        this.in_orden(this.raiz)
+    }
+    in_orden(nodo){
+        if(nodo != null){
+            this.in_orden(nodo.izquierda)
+            console.log(nodo.pelicula)
+            this.in_orden(nodo.derecha)
+        }
+    }
+    postorden(){
+        this.post_orden(this.raiz)
+    }
+    post_orden(nodo){
+        if(nodo != null){
+            this.post_orden(nodo.izquierda)
+            this.post_orden(nodo.derecha)
+            console.log(nodo.pelicula)
+        }
+    }
+    buscar(nodo,_id){
+        if(nodo == null){
+            return null
+        }else{
+            if(nodo.pelicula.id == _id){
+                return nodo.pelicula
+            }else if(_id < nodo.pelicula.id){
+                return this.buscar(nodo.izquierda,_id)
+            }else if(_id > nodo.pelicula.id){
+                return this.buscar(nodo.derecha,_id)
+            }
+        }
     }
 }
 

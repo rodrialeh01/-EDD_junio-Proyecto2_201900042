@@ -55,7 +55,6 @@
                   <h4 id="mostraruser"></h4>
                   <ul class="list-unstyled components">
                      <li><a href="./rentarpeliculas.html"><i class="fa fa-file-video-o yellow_color"></i> <span>Rentar Pelicula</span></a></li>
-                     <li class="active"><a href="./verpelicula.html"><i class="fa fa-file-video-o white_color"></i> <span>Ver Pelicula</span></a></li>
                      <li><a href="./veractores.html"><i class="fa fa-users orange_color"></i> <span>Ver Actores</span></a></li>
                      <li><a href="./categorias.html"><i class="fa fa-file-video-o green_color"></i> <span>Categorías</span></a></li>
                      <li><a href="../Login/login.html"><i class="fa fa-sign-out red_color"></i> <span>Salir</span></a></li>
@@ -87,8 +86,46 @@
                            </div>
                         </div>
                      </div>
-                     <div class="row column1">
-                        <div class="col-md-2"></div>
+                     <div class="row column1" id="infopeli">
+                        
+                  </div>
+               </div>
+               <!-- end dashboard inner -->
+            </div>
+         </div>
+      </div>
+      <!-- jQuery -->
+      <script src="//d3js.org/d3.v5.min.js"></script>
+      <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+      <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+      <script src="../Lógica del Sistema/main.js"></script>
+      <script>
+         var usuariolog = sessionStorage.getItem("usuariologueado")
+         function mostraru(){
+            console.log(usuariolog)
+            let nombre = document.getElementById("mostraruser")
+            let obj = JSON.parse(usuariolog)
+            nombre.innerHTML = "Cliente @" + obj.username
+         }
+         mostraru()
+         function mostrarpelicula(){
+            console.log("Hola")
+            let peli = sessionStorage.getItem("peliculaver")
+            let contenido = document.getElementById("infopeli")
+            let jtexto = JSON.parse(localStorage.getItem("peliculas"))
+            let arbol = new ArbolAVL()
+            for(let i = 0; i<jtexto.length; i++){
+               let id = jtexto[i].id_pelicula;
+               let nombre = jtexto[i].nombre_pelicula;
+               let descripcion = jtexto[i].descripcion;
+               let puntuacion = jtexto[i].puntuacion_star;
+               let precio = jtexto[i].precio_Q;
+               let nuevo = new Pelicula(id,nombre,descripcion,puntuacion,precio)
+               arbol.insertar(nuevo)
+            } 
+            let pelicula = arbol.buscar(arbol.raiz, Number(peli))
+            let agregar = ""
+            agregar += `<div class="col-md-2"></div>
                         <div class="col-md-8">
                            <div class="white_shd full margin_bottom_30">
                               <div class="full price_table padding_infor_info">
@@ -97,22 +134,27 @@
                                        <div class="full dis_flex center_text">
                                           <div class="profile_contant">
                                              <div class="contact_inner">
-                                                <h2>Nombre de la Pelicula</h2>
+                                                <h2>${pelicula.nombre}</h2>
                                              </div>
                                              <div class="user_progress_bar">
                                                 <div class="progress_bar">
+                                                   <span class="skill"><strong>Precio: Q${pelicula.precio}</strong></span><br><br>
                                                    <!-- Skill Bars -->
                                                    <span class="skill"><strong>Descripción</strong></span><br>
-                                                   <span class="skill">Dezzzzzzcripcion</span>
+                                                   <span class="skill">${pelicula.descripcion}</span>
                                                    <br>
                                                    <div class="left_rating">
                                                       <p>Puntuación de la Pelicula:</p>
-                                                      <p class="ratings">
-                                                         <a href="#"><span class="fa fa-star"></span></a>
-                                                         <a href="#"><span class="fa fa-star"></span></a>
-                                                         <a href="#"><span class="fa fa-star"></span></a>
-                                                         <a href="#"><span class="fa fa-star"></span></a>
-                                                         <a href="#"><span class="fa fa-star-o"></span></a>
+                                                      <p class="ratings">`
+            let puntuacion = pelicula.puntuacion
+            let puntuacionvacia = 5-puntuacion
+                                                   for(let i = 0; i<puntuacion; i++){
+                                                      agregar+=`<a href="#"><span class="fa fa-star"></span></a>`
+                                                   }
+                                                   for(let i = 0; i<puntuacionvacia; i++){
+                                                      agregar+=`<a href="#"><span class="fa fa-star-o"></span></a>`
+                                                   }
+                                                   agregar+=`
                                                       </p>
                                                    </div>
                                                 </div>
@@ -189,26 +231,10 @@
                               </div>
                            </div>
                            <div class="col-md-2"></div>
-                        </div>
-                  </div>
-               </div>
-               <!-- end dashboard inner -->
-            </div>
-         </div>
-      </div>
-      <!-- jQuery -->
-      <script src="//d3js.org/d3.v5.min.js"></script>
-      <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
-      <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
-      <script src="../Lógica del Sistema/main.js"></script>
-      <script>
-         var usuariolog = sessionStorage.getItem("usuariologueado")
-         function mostraru(){
-            let nombre = document.getElementById("mostraruser")
-            //let obj = JSON.parse(usuariolog)
-            nombre.innerHTML = "Cliente"
+                        </div>`
+            contenido.innerHTML = agregar
          }
-         mostraru()
+         mostrarpelicula()
       </script>
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>
