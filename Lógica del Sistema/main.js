@@ -1002,11 +1002,11 @@ var contg = 0
 class ArbolMerkle{
     constructor(){
         this.tophash = null
-        this.iniciales = []
+        this.iniciales = new Lista()
         this.codigodot = ""
     }
     insertar(cadena){
-        this.iniciales.push(new NodoCadena(cadena))
+        this.iniciales.append(new NodoCadena(cadena))
     }
 
     crearArbol(exp){
@@ -1028,7 +1028,7 @@ class ArbolMerkle{
             this.generarhash(nodo.derecha, n)
 
             if(nodo.izquierda == null && nodo.derecha == null){
-                nodo.izquierda = this.iniciales[n-index--]
+                nodo.izquierda = this.iniciales.returndata(n-index--)
                 nodo.hash = Sha256.hash(String(nodo.izquierda.cadena))
             }else{
                 nodo.hash = Sha256.hash(String(nodo.izquierda.hash)+ String(nodo.derecha.hash))
@@ -1052,16 +1052,16 @@ class ArbolMerkle{
     }
     auth(){
         let exp = 1
-        while(Math.pow(2,exp) < this.iniciales.length){
+        while(Math.pow(2,exp) < this.iniciales.length()){
             exp++
         }
-        if(this.iniciales.length%2== 1){
-            for(let i = this.iniciales.length; i < Math.pow(2,exp); i++){
-                this.iniciales.push(new NodoCadena(this.iniciales[this.iniciales.length-1].cadena))
+        if(this.iniciales.length()%2== 1){
+            for(let i = this.iniciales.length(); i < Math.pow(2,exp); i++){
+                this.iniciales.append(new NodoCadena(this.iniciales.returndata(this.iniciales.length()-1).cadena))
             }
         }else{
-            for(let i = this.iniciales.length; i < Math.pow(2,exp); i++){
-                this.iniciales.push(new NodoCadena(this.iniciales[this.iniciales.length-2].cadena))
+            for(let i = this.iniciales.length(); i < Math.pow(2,exp); i++){
+                this.iniciales.append(new NodoCadena(this.iniciales.returndata(this.iniciales.length()-2).cadena))
             }
         }
         index = Math.pow(2,exp)
@@ -1101,6 +1101,50 @@ class ArbolMerkle{
         console.log(this.codigodot)
     }
 }
+class NodoData{
+    constructor(_data){
+        this.id = 0
+        this.data = _data
+        this.siguiente = null
+    }
+}
+class Lista{
+    constructor(){
+        this.primero = null
+        this.tamanio = 0
+    }
+    append(_data){
+        let nuevo = new NodoData(_data)
+        if(this.primero == null){
+            this.primero = nuevo
+        }else{
+            let temporal = this.primero
+            while(temporal!= null){
+                if(temporal.siguiente == null){
+                    break
+                }
+                temporal = temporal.siguiente
+            }
+            nuevo.id = temporal.id +1
+            temporal.siguiente = nuevo
+        }
+        this.tamanio++
+    }
+    returndata(_id){
+        let temporal = this.primero
+        while(temporal!= null){
+            if(temporal.id == _id){
+                return temporal.data
+            }
+            temporal = temporal.siguiente
+        }
+        return null
+    }
+    length(){
+        return this.tamanio
+    }
+}
+
 class Cadena_t{
     constructor(_cadena){
         this.cadena = _cadena
@@ -1177,13 +1221,13 @@ class Blockchain{
     graficar(){
         let codigodot = `digraph List {
             rankdir=LR;
-            node [shape = note, style=filled, fillcolor="#121212", penwidth=2.5, fontcolor=white];`
+            node [shape = note, style=filled, fillcolor="#4C4A4A", penwidth=2.5, fontcolor=white];`
         let temporal = this.bloque_genesis
         console.log("temp")
         console.log(temporal)
         let contador = 0
         while(temporal != null){
-            codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash +"\\nNonce: " + temporal.bloque.nonce+ "\\n Prev: " + temporal.bloque.previoushash + "\\n Root Merkel: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap + "\"];"
+            codigodot+= "\nnodo" + contador + "[label=\"Bloque " + contador + "\\n Hash: " + temporal.bloque.hash +"\\nNonce: " + temporal.bloque.nonce+ "\\n Previous Hash: " + temporal.bloque.previoushash + "\\n Root Merkle: " + temporal.bloque.rootmerkle + "\\n Transacciones: " + temporal.bloque.data + "\\nFecha: " + temporal.bloque.timestap + "\", fontsize=30];"
             temporal = temporal.siguiente
             console.log(temporal)
             contador++

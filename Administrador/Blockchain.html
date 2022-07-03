@@ -148,7 +148,7 @@
             console.log(bloque)
             const hoy = new Date();
             let hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
-            let date = String(formatoFecha(hoy,'dd-mm-yy'))  + "-" + String(hora)
+            let date = String(formatoFecha(hoy,'dd-mm-yy'))  + "-::" + String(hora)
             if(bloque != null){
                 let bloques = JSON.parse(bloque)
                 for(let i = 0; i<bloques.length; i++){
