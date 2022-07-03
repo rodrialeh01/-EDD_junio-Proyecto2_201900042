@@ -180,12 +180,13 @@
                let guardar = "["
                while(temporal!= null){
                   if(temporal.siguiente == null){
-                     guardar+= JSON.stringify(temporal.cadena) + "]"
+                     guardar+= JSON.stringify(temporal.cadena)
                      break
                   }
                   guardar+= JSON.stringify(temporal.cadena) + ","
                   temporal = temporal.siguiente
                }
+               guardar+="]"
                localStorage.setItem("transacciones",guardar)
             }else{
                let nombre = JSON.parse(usuariolog).nombre
@@ -195,12 +196,13 @@
                let guardar = "["
                while(temporal!= null){
                   if(temporal.siguiente == null){
-                     guardar+= JSON.stringify(temporal.cadena) + "]"
+                     guardar+= JSON.stringify(temporal.cadena)
                      break
                   }
                   guardar+= JSON.stringify(temporal.cadena) + ","
                   temporal = temporal.siguiente
                }
+               guardar+="]"
                localStorage.setItem("transacciones",guardar)
             }
             alert('Pelicula alquilada con éxito')
